@@ -61,7 +61,7 @@
   <h1>Position Calculator</h1>
   <p class="subtitle">Indices · Forex · Metals · USD Account</p>
 </div>
-
+ 
 <div class="card">
   <div class="card-title" style="color:#00e5a0;">⚙ Account Settings</div>
   <div class="row">
@@ -75,12 +75,12 @@
     </div>
   </div>
 </div>
-
+ 
 <div class="risk-display">
   <div class="risk-label">Max Risk Per Trade</div>
   <div class="risk-amount" id="riskAmt">$500.00</div>
 </div>
-
+ 
 <div class="card">
   <div class="card-title" style="color:#0070f3;">📊 Instrument</div>
   <div class="category-tabs">
@@ -92,7 +92,7 @@
   <select id="inst" onchange="calc()"></select>
   <div class="pip-note" id="pipNote"></div>
 </div>
-
+ 
 <div class="card">
   <div class="card-title" style="color:#f5a623;">📐 Trade Setup</div>
   <div class="row">
@@ -106,14 +106,14 @@
     </div>
   </div>
 </div>
-
+ 
 <div id="results" class="hidden">
   <div class="lot-highlight">
     <div class="lot-label">✅ Use This Lot Size</div>
     <div class="lot-value" id="lotVal">—</div>
     <div class="lot-sub" id="lotSub"></div>
   </div>
-
+ 
   <div class="results-card">
     <div class="card-title" style="color:#f5a623;">📊 Breakdown</div>
     <div class="result-row">
@@ -133,7 +133,7 @@
     </div>
     <div class="formula" id="fml"></div>
   </div>
-
+ 
   <div class="rules-card">
     <div class="rules-title">⚠ BrightFunded Rules</div>
     <div class="rule-row"><span class="rule-key">Daily Loss Limit (5%)</span><span class="rule-val" id="dLimit">—</span></div>
@@ -142,9 +142,9 @@
     <div class="rule-row"><span class="rule-key">Losses to breach daily</span><span class="rule-safe" id="nLoss">—</span></div>
   </div>
 </div>
-
+ 
 <div class="footer">Verified specs from BrightFunded MT5 · June 2026</div>
-
+ 
 <script>
 var cats={
   indices:{
@@ -183,7 +183,7 @@ var cats={
     ]
   }
 };
-
+ 
 function switchCat(cat){
   ['indices','majors','metals'].forEach(function(c){
     document.getElementById('tab-'+c).className='cat-btn'+(c===cat?' active':'');
@@ -204,7 +204,7 @@ function switchCat(cat){
   document.getElementById('results').className='hidden';
   calc();
 }
-
+ 
 function calc(){
   var acc=parseFloat(document.getElementById('acc').value)||0;
   var rsk=parseFloat(document.getElementById('rsk').value)||0;
@@ -244,8 +244,9 @@ function calc(){
   document.getElementById('fml').innerHTML='$'+riskAmt.toFixed(0)+' &divide; ('+sl+' &times; $'+pv.toFixed(2)+') = <span>'+lots.toFixed(4)+' &rarr; use '+lotsF.toFixed(2)+' lots</span>';
   document.getElementById('results').className='';
 }
-
+ 
 switchCat('indices');
 </script>
 </body>
 </html>
+ 
