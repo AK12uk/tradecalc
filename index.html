@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="TradeCalc"/>
+<title>TradeCalc — BrightFunded</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{background:#0d1117;color:#e6edf3;font-family:'Inter',sans-serif;min-height:100vh;padding:20px 16px 40px;}
+  .header{text-align:center;margin-bottom:20px;padding-top:8px;}
+  .badge{display:inline-block;background:linear-gradient(135deg,#00e5a0,#0070f3);border-radius:10px;padding:6px 14px;margin-bottom:10px;}
+  .badge span{color:#0d1117;font-weight:800;font-size:11px;letter-spacing:0.12em;}
+  h1{font-size:22px;font-weight:700;margin-bottom:4px;}
+  .subtitle{color:#8b949e;font-size:13px;}
+  .card{background:#161b22;border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid #21262d;}
+  .card-title{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;font-weight:600;}
+  .row{display:flex;gap:10px;margin-bottom:10px;}
+  .col{flex:1;}
+  label{display:block;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#8b949e;margin-bottom:6px;}
+  input,select{width:100%;background:#0d1117;border:1.5px solid #2a2f3a;border-radius:10px;color:#e6edf3;font-size:16px;padding:12px 14px;outline:none;font-family:'DM Mono',monospace;appearance:none;-webkit-appearance:none;}
+  input:focus,select:focus{border-color:#0070f3;}
+  select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b949e' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+  .category-tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+  .cat-btn{padding:7px 12px;border-radius:8px;border:1.5px solid #2a2f3a;background:#0d1117;color:#8b949e;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s;}
+  .cat-btn.active{border-color:#00e5a0;background:rgba(0,229,160,0.08);color:#00e5a0;}
+  .risk-display{background:rgba(0,229,160,0.05);border:1px solid rgba(0,229,160,0.2);border-radius:14px;padding:14px;text-align:center;margin-bottom:12px;}
+  .risk-label{color:#8b949e;font-size:12px;margin-bottom:4px;}
+  .risk-amount{color:#00e5a0;font-size:36px;font-weight:800;font-family:'DM Mono',monospace;}
+  .result-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .result-label{color:#8b949e;font-size:13px;}
+  .result-value{font-family:'DM Mono',monospace;font-weight:700;font-size:15px;}
+  .lot-highlight{background:rgba(0,229,160,0.08);border:1.5px solid #00e5a0;border-radius:10px;padding:14px;text-align:center;margin-bottom:12px;}
+  .lot-label{color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;}
+  .lot-value{color:#00e5a0;font-size:40px;font-weight:800;font-family:'DM Mono',monospace;}
+  .lot-sub{color:#8b949e;font-size:12px;margin-top:4px;}
+  .rr-badge{display:inline-block;padding:6px 14px;border-radius:8px;font-weight:700;font-size:13px;margin-top:8px;}
+  .rr-great{background:rgba(0,229,160,0.1);color:#00e5a0;border:1px solid rgba(0,229,160,0.3);}
+  .rr-weak{background:rgba(245,166,35,0.1);color:#f5a623;border:1px solid rgba(245,166,35,0.3);}
+  .rr-bad{background:rgba(255,77,77,0.1);color:#ff4d4d;border:1px solid rgba(255,77,77,0.3);}
+  .formula{background:#0d1117;border-radius:8px;padding:10px 12px;font-family:'DM Mono',monospace;font-size:12px;color:#8b949e;margin-top:10px;}
+  .formula span{color:#00e5a0;}
+  .rules-card{background:rgba(255,77,77,0.04);border:1px solid rgba(255,77,77,0.15);border-radius:14px;padding:16px;margin-bottom:12px;}
+  .rules-title{color:#ff4d4d;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;font-weight:600;}
+  .rule-row{display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;}
+  .rule-key{color:#8b949e;}
+  .rule-val{color:#e6edf3;font-family:'DM Mono',monospace;}
+  .rule-safe{color:#00e5a0;font-family:'DM Mono',monospace;}
+  .pip-note{font-size:11px;color:#8b949e;margin-top:8px;padding:8px 10px;background:#0d1117;border-radius:8px;}
+  .hidden{display:none!important;}
+  .footer{text-align:center;color:#3d444d;font-size:11px;margin-top:8px;}
+  .results-card{background:#161b22;border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid #21262d;}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="badge"><span>BRIGHTFUNDED · MT5</span></div>
+  <h1>Position Calculator</h1>
+  <p class="subtitle">Indices · Forex · Metals · USD Account</p>
+</div>
+
+<div class="card">
+  <div class="card-title" style="color:#00e5a0;">⚙ Account Settings</div>
+  <div class="row">
+    <div class="col">
+      <label>Account ($)</label>
+      <input type="number" id="acc" value="100000" inputmode="numeric" oninput="calc()"/>
+    </div>
+    <div class="col">
+      <label>Risk (%)</label>
+      <input type="number" id="rsk" value="0.5" step="0.1" inputmode="decimal" oninput="calc()"/>
+    </div>
+  </div>
+</div>
+
+<div class="risk-display">
+  <div class="risk-label">Max Risk Per Trade</div>
+  <div class="risk-amount" id="riskAmt">$500.00</div>
+</div>
+
+<div class="card">
+  <div class="card-title" style="color:#0070f3;">📊 Instrument</div>
+  <div class="category-tabs">
+    <button class="cat-btn active" id="tab-indices" onclick="switchCat('indices')">Indices</button>
+    <button class="cat-btn" id="tab-majors" onclick="switchCat('majors')">Forex</button>
+    <button class="cat-btn" id="tab-metals" onclick="switchCat('metals')">Metals</button>
+  </div>
+  <label id="inst-label">Select Index</label>
+  <select id="inst" onchange="calc()"></select>
+  <div class="pip-note" id="pipNote"></div>
+</div>
+
+<div class="card">
+  <div class="card-title" style="color:#f5a623;">📐 Trade Setup</div>
+  <div class="row">
+    <div class="col">
+      <label id="sl-lbl">Stop Loss (pts)</label>
+      <input type="number" id="sl" placeholder="e.g. 136" inputmode="decimal" oninput="calc()"/>
+    </div>
+    <div class="col">
+      <label id="tp-lbl">Target (pts)</label>
+      <input type="number" id="tp" placeholder="e.g. 422" inputmode="decimal" oninput="calc()"/>
+    </div>
+  </div>
+</div>
+
+<div id="results" class="hidden">
+  <div class="lot-highlight">
+    <div class="lot-label">✅ Use This Lot Size</div>
+    <div class="lot-value" id="lotVal">—</div>
+    <div class="lot-sub" id="lotSub"></div>
+  </div>
+
+  <div class="results-card">
+    <div class="card-title" style="color:#f5a623;">📊 Breakdown</div>
+    <div class="result-row">
+      <span class="result-label">Actual Risk</span>
+      <span class="result-value" id="aRisk" style="color:#ff6b6b;">—</span>
+    </div>
+    <div class="result-row" id="profRow">
+      <span class="result-label">Potential Profit</span>
+      <span class="result-value" id="aProfit" style="color:#00e5a0;">—</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">Value per unit</span>
+      <span class="result-value" id="pvShow">—</span>
+    </div>
+    <div style="text-align:center;" id="rrWrap">
+      <div id="rrBadge" class="rr-badge">—</div>
+    </div>
+    <div class="formula" id="fml"></div>
+  </div>
+
+  <div class="rules-card">
+    <div class="rules-title">⚠ BrightFunded Rules</div>
+    <div class="rule-row"><span class="rule-key">Daily Loss Limit (5%)</span><span class="rule-val" id="dLimit">—</span></div>
+    <div class="rule-row"><span class="rule-key">Max Drawdown (10%)</span><span class="rule-val" id="ddLimit">—</span></div>
+    <div class="rule-row"><span class="rule-key">Risk % of daily limit</span><span class="rule-safe" id="pctD">—</span></div>
+    <div class="rule-row"><span class="rule-key">Losses to breach daily</span><span class="rule-safe" id="nLoss">—</span></div>
+  </div>
+</div>
+
+<div class="footer">Always verify pip/point value in MT5 → Right click instrument → Specification</div>
+
+<script>
+var cats={
+  indices:{label:'Select Index',sl:'Stop Loss (pts)',tp:'Target (pts)',note:'💡 1 standard lot = $1 per point',opts:[['US100 (Nasdaq)','1'],['US500 (S&P 500)','1'],['US30 (Dow Jones)','1'],['GER40 (DAX)','1'],['UK100 (FTSE)','1']]},
+  majors:{label:'Select Pair',sl:'Stop Loss (pips)',tp:'Target (pips)',note:'💡 1 standard lot = $10/pip · USDJPY ≈ $9.09/pip',opts:[['EURUSD','10'],['GBPUSD','10'],['USDJPY','9.09'],['USDCHF','10'],['AUDUSD','10'],['USDCAD','10'],['NZDUSD','10']]},
+  metals:{label:'Select Metal',sl:'Stop Loss (pts)',tp:'Target (pts)',note:'💡 Gold: $1/pt per lot · Silver: $0.05/pt per lot',opts:[['XAUUSD (Gold)','1'],['XAGUSD (Silver)','0.05']]}
+};
+
+function switchCat(cat){
+  ['indices','majors','metals'].forEach(function(c){
+    document.getElementById('tab-'+c).className='cat-btn'+(c===cat?' active':'');
+  });
+  var d=cats[cat];
+  document.getElementById('inst-label').textContent=d.label;
+  document.getElementById('sl-lbl').textContent=d.sl;
+  document.getElementById('tp-lbl').textContent=d.tp;
+  document.getElementById('pipNote').textContent=d.note;
+  var sel=document.getElementById('inst');
+  sel.innerHTML='';
+  d.opts.forEach(function(o){
+    var opt=document.createElement('option');
+    opt.textContent=o[0];opt.value=o[1];sel.appendChild(opt);
+  });
+  document.getElementById('sl').value='';
+  document.getElementById('tp').value='';
+  document.getElementById('results').className='hidden';
+  calc();
+}
+
+function calc(){
+  var acc=parseFloat(document.getElementById('acc').value)||0;
+  var rsk=parseFloat(document.getElementById('rsk').value)||0;
+  var sl=parseFloat(document.getElementById('sl').value)||0;
+  var tp=parseFloat(document.getElementById('tp').value)||0;
+  var pv=parseFloat(document.getElementById('inst').value)||1;
+  var riskAmt=(acc*rsk)/100;
+  document.getElementById('riskAmt').textContent='$'+riskAmt.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+  if(!sl||sl<=0){document.getElementById('results').className='hidden';return;}
+  var lots=riskAmt/(sl*pv);
+  var lotsF=Math.floor(lots*100)/100;
+  var aRisk=lotsF*sl*pv;
+  var aProfit=tp>0?lotsF*tp*pv:0;
+  var rr=tp>0?tp/sl:0;
+  var daily=acc*0.05;
+  var dd=acc*0.10;
+  document.getElementById('lotVal').textContent=lotsF.toFixed(2);
+  document.getElementById('lotSub').textContent='Exact: '+lots.toFixed(4)+' → always round DOWN';
+  document.getElementById('aRisk').textContent='$'+aRisk.toFixed(2);
+  document.getElementById('pvShow').textContent='$'+pv.toFixed(2)+' per unit per lot';
+  document.getElementById('dLimit').textContent='$'+daily.toLocaleString();
+  document.getElementById('ddLimit').textContent='$'+dd.toLocaleString();
+  document.getElementById('pctD').textContent=((aRisk/daily)*100).toFixed(1)+'% of daily limit';
+  document.getElementById('nLoss').textContent=Math.floor(daily/aRisk)+' consecutive losses';
+  if(tp>0){
+    document.getElementById('profRow').style.display='flex';
+    document.getElementById('aProfit').textContent='$'+aProfit.toFixed(2);
+    document.getElementById('rrWrap').style.display='block';
+    var b=document.getElementById('rrBadge');
+    if(rr>=2){b.className='rr-badge rr-great';b.textContent='R/R '+rr.toFixed(2)+' 🔥 Great Setup!';}
+    else if(rr>=1){b.className='rr-badge rr-weak';b.textContent='R/R '+rr.toFixed(2)+' ⚠️ Weak — aim for 2+';}
+    else{b.className='rr-badge rr-bad';b.textContent='R/R '+rr.toFixed(2)+' ❌ Do Not Take This Trade';}
+  } else {
+    document.getElementById('profRow').style.display='none';
+    document.getElementById('rrWrap').style.display='none';
+  }
+  document.getElementById('fml').innerHTML='$'+riskAmt.toFixed(0)+' &divide; ('+sl+' &times; $'+pv.toFixed(2)+') = <span>'+lots.toFixed(4)+' &rarr; use '+lotsF.toFixed(2)+' lots</span>';
+  document.getElementById('results').className='';
+}
+
+switchCat('indices');
+</script>
+</body>
+</html>
