@@ -24,8 +24,8 @@
   input,select{width:100%;background:#0d1117;border:1.5px solid #2a2f3a;border-radius:10px;color:#e6edf3;font-size:16px;padding:12px 14px;outline:none;font-family:'DM Mono',monospace;appearance:none;-webkit-appearance:none;}
   input:focus,select:focus{border-color:#0070f3;}
   select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b949e' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
-  .category-tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
-  .cat-btn{padding:7px 12px;border-radius:8px;border:1.5px solid #2a2f3a;background:#0d1117;color:#8b949e;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s;}
+  .category-tabs{display:flex;gap:6px;margin-bottom:10px;}
+  .cat-btn{padding:7px 12px;border-radius:8px;border:1.5px solid #2a2f3a;background:#0d1117;color:#8b949e;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s;flex:1;text-align:center;}
   .cat-btn.active{border-color:#00e5a0;background:rgba(0,229,160,0.08);color:#00e5a0;}
   .risk-display{background:rgba(0,229,160,0.05);border:1px solid rgba(0,229,160,0.2);border-radius:14px;padding:14px;text-align:center;margin-bottom:12px;}
   .risk-label{color:#8b949e;font-size:12px;margin-bottom:4px;}
@@ -143,13 +143,45 @@
   </div>
 </div>
 
-<div class="footer">Always verify pip/point value in MT5 → Right click instrument → Specification</div>
+<div class="footer">Verified specs from BrightFunded MT5 · June 2026</div>
 
 <script>
 var cats={
-  indices:{label:'Select Index',sl:'Stop Loss (pts)',tp:'Target (pts)',note:'💡 1 standard lot = $1 per point',opts:[['US100 (Nasdaq)','1'],['US500 (S&P 500)','1'],['US30 (Dow Jones)','1'],['GER40 (DAX)','1'],['UK100 (FTSE)','1']]},
-  majors:{label:'Select Pair',sl:'Stop Loss (pips)',tp:'Target (pips)',note:'💡 1 standard lot = $10/pip · USDJPY ≈ $9.09/pip',opts:[['EURUSD','10'],['GBPUSD','10'],['USDJPY','9.09'],['USDCHF','10'],['AUDUSD','10'],['USDCAD','10'],['NZDUSD','10']]},
-  metals:{label:'Select Metal',sl:'Stop Loss (pts)',tp:'Target (pts)',note:'💡 Gold: $1/pt per lot · Silver: $0.05/pt per lot',opts:[['XAUUSD (Gold)','1'],['XAGUSD (Silver)','0.05']]}
+  indices:{
+    label:'Select Index',
+    sl:'Stop Loss (pts)',
+    tp:'Target (pts)',
+    note:'💡 US100 & US500: Contract size 1 · $1 per point per lot',
+    opts:[
+      ['US100 (Nasdaq)','1'],
+      ['US500 (S&P 500)','1']
+    ]
+  },
+  majors:{
+    label:'Select Pair',
+    sl:'Stop Loss (pips)',
+    tp:'Target (pips)',
+    note:'💡 Standard lot = $10/pip · USDJPY ≈ $9.09/pip · USDCHF & USDCAD fluctuate near $10',
+    opts:[
+      ['EURUSD','10'],
+      ['GBPUSD','10'],
+      ['USDJPY','9.09'],
+      ['USDCHF','10'],
+      ['AUDUSD','10'],
+      ['USDCAD','10'],
+      ['NZDUSD','10']
+    ]
+  },
+  metals:{
+    label:'Select Metal',
+    sl:'Stop Loss (pts)',
+    tp:'Target (pts)',
+    note:'💡 Gold (XAUUSD): Contract 100 · $1/pt per lot · Silver (XAGUSD): Contract 5000 · $5/pt per lot',
+    opts:[
+      ['XAUUSD (Gold)','1'],
+      ['XAGUSD (Silver)','5']
+    ]
+  }
 };
 
 function switchCat(cat){
@@ -205,7 +237,7 @@ function calc(){
     if(rr>=2){b.className='rr-badge rr-great';b.textContent='R/R '+rr.toFixed(2)+' 🔥 Great Setup!';}
     else if(rr>=1){b.className='rr-badge rr-weak';b.textContent='R/R '+rr.toFixed(2)+' ⚠️ Weak — aim for 2+';}
     else{b.className='rr-badge rr-bad';b.textContent='R/R '+rr.toFixed(2)+' ❌ Do Not Take This Trade';}
-  } else {
+  }else{
     document.getElementById('profRow').style.display='none';
     document.getElementById('rrWrap').style.display='none';
   }
